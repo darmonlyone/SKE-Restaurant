@@ -19,7 +19,7 @@ public class Restaurant {
 
 	private static String name(int a) {
 		if (a==1)return "pizza";
-		if (a==2)return "chickens";
+		if (a==2)return "chicken";
 		if (a==3)return "coke";		
 		return null;
 	}
