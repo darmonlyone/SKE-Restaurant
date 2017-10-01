@@ -18,7 +18,7 @@ public class Restaurant {
     }
 	public static int getIntReply(String prompt) {
 		System.out.print(prompt);
-		return console.nextInt();
+		return sc.nextInt();
 	}
 
 	private static String name(int a) {
@@ -70,12 +70,22 @@ public class Restaurant {
         
         printMenu();
         why();
-        System.out.println("You need to pay :"+total);
-        System.out.print("Cash : ");
-        int pay = sc.nextInt();
+        pay(total);
+    }
+static int pay=0;
+	public static void pay(int total){
+		System.out.println("You need to pay :"+total);
+      
+        while(true){
+        	int payy = getIntReply("Put your cash: ");
+        	if (payy < total) System.out.println("Not enough ");
+        	else {
+        		pay = payy; break;
+        	}
+        	
+        }
+       
         System.out.println("\nChange :"+(pay-total));
         System.out.printf("%n======== Thank you =========");
-    }
-
-
+	}
 }
