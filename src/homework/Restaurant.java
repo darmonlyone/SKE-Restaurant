@@ -16,6 +16,10 @@ public class Restaurant {
         System.out.println("4. )\tTotal");
         System.out.println("5. )\tExit");
     }
+	public static int getIntReply(String prompt) {
+		System.out.print(prompt);
+		return console.nextInt();
+	}
 
 	private static String name(int a) {
 		if (a==1)return "pizza";
@@ -31,14 +35,12 @@ public class Restaurant {
 	
 	private static void why(){
 		 while (true) {
-	            System.out.print("\nEnter your order: ");
-	            int ipOrder = sc.nextInt();
+	            int ipOrder = getIntReply("\nEnter your order: ");
 	            if (ipOrder>5||ipOrder<0)System.out.println("Try Again...");
 	            if (ipOrder == 5)
 	                break;
 	            if (ipOrder != 4&&ipOrder<6&&ipOrder>0) {
-	                System.out.print("Enter Quantity: ");
-	                int ipAmount = sc.nextInt();
+	                int ipAmount = getIntReply("Enter Quantity: ");
 	                String name = name(ipOrder);
 	                System.out.printf("You order %d %s%n",ipAmount,name);
 	                if (ipOrder==1)pizzaAmount+=ipAmount;
