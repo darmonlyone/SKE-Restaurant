@@ -48,9 +48,12 @@ public class Restaurant {
 	}
 
 	private static void totalPrice() {
-		totalPrice[0] = Amount[0] * price[0];
-		totalPrice[1] = Amount[1] * price[1];
-		totalPrice[2] = Amount[2] * price[2];
+//		totalPrice[0] = Amount[0] * price[0];
+//		totalPrice[1] = Amount[1] * price[1];
+//		totalPrice[2] = Amount[2] * price[2];
+		for (int i = 0; i<3 ; i++){
+			totalPrice[i]= Amount[i]*price[i];
+		}
 	}
 
 	private static void printTotal(int ipOrder) {
