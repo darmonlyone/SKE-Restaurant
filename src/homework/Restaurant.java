@@ -48,11 +48,8 @@ public class Restaurant {
 	}
 
 	private static void totalPrice() {
-//		totalPrice[0] = Amount[0] * price[0];
-//		totalPrice[1] = Amount[1] * price[1];
-//		totalPrice[2] = Amount[2] * price[2];
-		for (int i = 0; i<3 ; i++){
-			totalPrice[i]= Amount[i]*price[i];
+		for (int i = 0; i < ordername.length; i++) {
+			totalPrice[i] = Amount[i] * price[i];
 		}
 	}
 
@@ -62,12 +59,11 @@ public class Restaurant {
 
 		if (ipOrder == 4) {
 			System.out.printf("+------ %s ------+-- %s --+-- %s --+%n", name[4], name[6], name[7]);
-			if (Amount[0] > 0)
-				printCheck(ordername[0], Amount[0], totalPrice[0]);
-			if (Amount[1] > 0)
-				printCheck(ordername[1], Amount[1], totalPrice[1]);
-			if (Amount[2] > 0)
-				printCheck(ordername[2], Amount[2], totalPrice[2]);
+			for (int i = 0; i < ordername.length; i++) {
+				if (Amount[i] > 0) {
+					printCheck(ordername[i], Amount[i], totalPrice[i]);
+				}
+			}
 			System.out.println("+----------------------------------------+");
 			System.out.printf("|  %-26s|%7d    |%n", name[1], totalAll[0]);
 			System.out.println("+----------------------------------------+");
@@ -78,21 +74,19 @@ public class Restaurant {
 	private static void printAmountOrder(int ipOrder) {
 		if (ipOrder != 4 && ipOrder < 6 && ipOrder > 0) {
 			int ipAmount = getScanInt("Enter Quantity: ");
-			if (ipOrder == 1)
-				Amount[0] += ipAmount;
-			if (ipOrder == 2)
-				Amount[1] += ipAmount;
-			if (ipOrder == 3)
-				Amount[2] += ipAmount;
+			for (int j = 0; j < ordername.length; j++) {
+				if (ipOrder == j + 1) {
+					Amount[j] += ipAmount;
+				}
+			}
 
 			System.out.printf("You order %d %s.%n", ipAmount, ordername[name(ipOrder)].toLowerCase());
 
-			if (Amount[0] > 0)
-				printOrder(ordername[0], Amount[0]);
-			if (Amount[1] > 0)
-				printOrder(ordername[1], Amount[1]);
-			if (Amount[2] > 0)
-				printOrder(ordername[2], Amount[2]);
+			for (int i = 0; i < ordername.length; i++) {
+				if (Amount[i] > 0) {
+					printOrder(ordername[i], Amount[i]);
+				}
+			}
 		}
 	}
 
