@@ -1,0 +1,9 @@
+##  You can add Order and Price if you want
+##  "Order"(space)(space)"Price"
+Pizza  250
+Chicken  120
+Sushi  80
+Tom Yum Kung  90
+Fried Rice  30
+Coke  45
+Water  15
