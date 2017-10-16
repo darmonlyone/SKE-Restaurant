@@ -23,6 +23,7 @@ public class Restaurant {
 		}
 		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+1, name[1]);
 		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+2, name[2]);
+		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+3, name[4]);
 	}
 
 	public static int getScanInt(String prompt) {
@@ -96,10 +97,12 @@ public class Restaurant {
 	private static void Order() {
 		while (true) {
 			int ipOrder = getScanInt("\nEnter your order number: ");
-			if (ipOrder > OpenFile.menuName.size()+2 || ipOrder < 0)
+			if (ipOrder > OpenFile.menuName.size()+3 || ipOrder < 0)
 				System.out.println("Try Again...");
 			if (ipOrder == OpenFile.menuName.size()+2)
 				break;
+			if (ipOrder == OpenFile.menuName.size()+3)
+				printMenu();
 			printAmountOrder(ipOrder);
 			printTotal(ipOrder);
 
