@@ -22,8 +22,8 @@ public class Restaurant {
 			System.out.printf("%d.) %-20s%5d %s.%n",i+1, OpenFile.menuName.get(i), OpenFile.menuPrice.get(i), name[3]);
 		}
 		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+1, name[1]);
-		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+2, name[2]);
-		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+3, name[4]);
+		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+2, name[4]);
+		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+3, name[2]);
 	}
 
 	public static int getScanInt(String prompt) {
@@ -76,7 +76,7 @@ public class Restaurant {
 	}
 
 	private static void printAmountOrder(int ipOrder) {
-		if (ipOrder != OpenFile.menuName.size()+1 && ipOrder < OpenFile.menuName.size()+3 && ipOrder > 0) {
+		if (ipOrder != OpenFile.menuName.size()+1 && ipOrder < OpenFile.menuName.size()+2 && ipOrder > 0) {
 			int ipAmount = getScanInt("Enter Quantity: ");
 			for (int j = 0; j < OpenFile.menuName.size(); j++) {
 				if (ipOrder == j + 1) {
@@ -99,9 +99,9 @@ public class Restaurant {
 			int ipOrder = getScanInt("\nEnter your order number: ");
 			if (ipOrder > OpenFile.menuName.size()+3 || ipOrder < 0)
 				System.out.println("Try Again...");
-			if (ipOrder == OpenFile.menuName.size()+2)
-				break;
 			if (ipOrder == OpenFile.menuName.size()+3)
+				break;
+			if (ipOrder == OpenFile.menuName.size()+2)
 				printMenu();
 			printAmountOrder(ipOrder);
 			printTotal(ipOrder);
@@ -124,7 +124,7 @@ public class Restaurant {
 		}
 
 		System.out.println("\nChange :" + (pay[0] - total));
-		System.out.printf("%n======== Thank you =========");
+		System.out.printf("%n========= Thank you =========");
 	}
 
 	public static void main(String[] args) {
