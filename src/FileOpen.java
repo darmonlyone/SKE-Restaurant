@@ -1,6 +1,8 @@
-package homework;
-import java.io.*;
-import java.util.*;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
 
 public class FileOpen {
     static List<String> menuName = new ArrayList<>();
@@ -10,7 +12,7 @@ public class FileOpen {
             File theFile = new File("menuFile.txt");
             Scanner fileScanner = new Scanner(theFile);
             while(fileScanner.hasNextLine()) {
-                String[] menu = fileScanner.nextLine().split("  ");
+                String[] menu = fileScanner.nextLine().replaceAll(" : ","  ").split("  ");
                 if(!menu[0].equals("##")) {
                     menuName.add(menu[0]);
                     menuPrice.add(Integer.parseInt(menu[1]));
