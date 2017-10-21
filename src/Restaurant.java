@@ -1,6 +1,4 @@
-package homework;
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Restaurant {
 
@@ -97,7 +95,7 @@ public class Restaurant {
 	private static void Order() {
 		while (true) {
 			int ipOrder = getScanInt("\nEnter your order number: ");
-			if (ipOrder > OpenFile.menuName.size()+3 || ipOrder < 0)
+			if (ipOrder > OpenFile.menuName.size()+3 || ipOrder < 1)
 				System.out.println("Try Again...");
 			if (ipOrder == OpenFile.menuName.size()+3)
 				break;
