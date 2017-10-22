@@ -2,22 +2,22 @@ import java.util.Scanner;
 
 public class Restaurant {
 
-	static FileOpen OpenFile = new FileOpen();
+	static RestaurantManager OpenFile = new RestaurantManager();
 
 	static Scanner sc = new Scanner(System.in);
 
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
 	static int[] Amount;
-	static int[] totalAll = new int[1];
-	static int[] totalPrice;
-	static int[] pay = new int[1];
+	static double[] totalAll = new double[1];
+	static double[] totalPrice;
+	static double[] pay = new double[1];
 
 	public static void printMenu() {
 		System.out.printf("********** %s **********%n", name[0]);
 		System.out.printf("%5s%s%19s%s %n","", name[4],"", name[5]);
 		System.out.printf("%4s-------%16s------ %n","","");
 		for (int i = 0; i < OpenFile.menuName.size() ; i++) {
-			System.out.printf("%d.) %-20s%5d %s.%n",i+1, OpenFile.menuName.get(i), OpenFile.menuPrice.get(i), name[3]);
+			System.out.printf("%d.) %-20s%6.1f\t%s.%n",i+1, OpenFile.menuName.get(i), OpenFile.menuPrice.get(i), name[3]);
 		}
 		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+1, name[1]);
 		System.out.printf("%d.) %-5s%n",OpenFile.menuName.size()+2, name[4]);
@@ -45,8 +45,8 @@ public class Restaurant {
 		System.out.printf("---> You Order %-15s = %6d%n", ordername, Amount);
 	}
 
-	private static void printCheck(String ordername, int Amount, int finalPrice) {
-		System.out.printf("|  %-16s|%6d   |%7d    |%n", ordername, Amount, finalPrice);
+	private static void printCheck(String ordername, int Amount, double finalPrice) {
+		System.out.printf("|  %-16s|%6d   |   %6.1f |%n", ordername, Amount, finalPrice);
 	}
 
 	private static void totalPriceChange() {
@@ -67,7 +67,7 @@ public class Restaurant {
 				}
 			}
 			System.out.println("+----------------------------------------+");
-			System.out.printf("|  %-26s|%7d    |%n", name[1], totalAll[0]);
+			System.out.printf("|  %-26s|   %6.1f |%n", name[1], totalAll[0]);
 			System.out.println("+----------------------------------------+");
 
 		}
@@ -107,11 +107,11 @@ public class Restaurant {
 		}
 	}
 
-	public static void pay(int total) {
-		System.out.println("\nYou need to pay :" + total);
+	public static void pay(double total) {
+		System.out.println("\nYou need to pay :" + total+" Bath.");
 
 		while (true) {
-			int payy = getScanInt("Put your cash: ");
+			double payy = getScanInt("Put your cash: ");
 			if (payy < total)
 				System.out.println("Not enough ");
 			else {
@@ -121,15 +121,15 @@ public class Restaurant {
 
 		}
 
-		System.out.println("\nChange :" + (pay[0] - total));
+		System.out.println("\nChange :" + (pay[0] - total+" Bath."));
 		System.out.printf("%n========= Thank you =========");
 	}
 
 	public static void main(String[] args) {
-		OpenFile.openFile();
+		OpenFile.init();
 
 		Amount = new int[OpenFile.menuPrice.size()];
-		totalPrice = new int[OpenFile.menuPrice.size()];
+		totalPrice = new double[OpenFile.menuPrice.size()];
 
 		printMenu();
 		Order();
