@@ -110,7 +110,7 @@ public class Restaurant {
 			if (ipOrder > food.size()+3 || ipOrder < 1)
 				System.out.println("Try Again...");
 			if (ipOrder == food.size()+3)
-				break;
+				return;
 			if (ipOrder == food.size()+2)
 				printMenu();
 			printAmountOrder(ipOrder);

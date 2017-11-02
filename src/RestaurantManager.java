@@ -17,7 +17,7 @@ public class RestaurantManager extends Restaurant{
     private final String filename = "data/menuFile.txt";
 
     public void setMenu(){
-        
+
         ClassLoader loader = RestaurantManager.class.getClassLoader();
 
 
