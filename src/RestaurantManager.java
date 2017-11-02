@@ -1,50 +1,66 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+//import java.io.File;
+//import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-public class RestaurantManager {
-    static List<String> menuName = new ArrayList<>();
-    static List<Double> menuPrice = new ArrayList<>();
 
-    public static void getMenuItems(Scanner fileScanner,String [] menuNameList){
 
-          if(!menuNameList[0].equals("##")) {
-             menuName.add(menuNameList[0]);
-           }
+public class RestaurantManager extends Restaurant{
+
+    public void recordOrder(int orderNumber, int order, double total){
 
     }
-    public static void getPrices(Scanner fileScanner, String [] menuNamePrice) {
 
-            if (!menuNamePrice[0].equals("##")) {
-                menuPrice.add(Double.parseDouble(menuNamePrice[1]));
+    List<FoodManage> foodRead = new ArrayList<>();
+    private final String filename = "data/menuFile.txt";
+
+    public void setMenu(){
+        
+        ClassLoader loader = RestaurantManager.class.getClassLoader();
+
+
+        InputStream in = loader.getResourceAsStream( filename );
+        if (in == null) {
+            System.out.println("Could not access file "+filename);
+            return;
+        }
+        Scanner reader = new Scanner( in );
+        while(reader.hasNextLine()) {
+        String[] menu = reader.nextLine().replaceAll(" : ", "  ").split("  ");
+        if (!menu[0].isEmpty()) {
+            if (!menu[0].equals("##")) {
+                foodRead.add(new FoodManage(menu[0], Double.parseDouble(menu[1])));
             }
-
-    }
-    public static void recordOrder(int orderNumber, int[] order, double total){
-
-    }
-    static void setMenu(String filename){
-        try {
-            File theFile = new File(filename);
-            Scanner fileScanner = new Scanner(theFile);
-            while(fileScanner.hasNextLine()){
-                String[] menu = fileScanner.nextLine().replaceAll(" : ","  ").split("  ");
-                getMenuItems(fileScanner,menu);
-                getPrices(fileScanner,menu);
-            }
-
-
-        } catch (FileNotFoundException e) {
-            System.exit(0);
         }
     }
 
-    public static void init() {
-        String whereFile = "src/data/menuFile.txt";
-        setMenu(whereFile);
+
+        /*
+        for me remembering to use in another way
+        */
+//    try {
+//    File theFile = new File(filename);
+//    Scanner fileScanner = new Scanner(theFile);
+//    while(fileScanner.hasNextLine()) {
+//        String[] menu = fileScanner.nextLine().replaceAll(" : ", "  ").split("  ");
+//        if (!menu[0].isEmpty()) {
+//            if (!menu[0].equals("##")) {
+//                foodRead.add(new FoodManage(menu[0], Double.parseDouble(menu[1])));
+//            }
+//        }
+//    }
+//    }catch (FileNotFoundException e) {
+//    System.out.println("cannot find file");
+//    System.exit(10);
+//}
+
+
+
+
     }
+
 }
 
 
