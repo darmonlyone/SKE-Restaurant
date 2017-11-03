@@ -3,10 +3,7 @@ import java.util.List;
 import java.util.Scanner;
 
 public class Restaurant {
-
-	static RestaurantManager resManage = new RestaurantManager();
-
-	static List<String> food = new ArrayList<>();
+    static List<String> food = new ArrayList<>();
 	static List<Double> foodPrice = new ArrayList<>();
 	static Scanner sc = new Scanner(System.in);
 
@@ -16,6 +13,8 @@ public class Restaurant {
 	static double[] totalPrice;
 	static double[] pay = new double[1];
 	private static void setResFood(){
+
+	    RestaurantManager resManage = new RestaurantManager();
 	    resManage.setMenu();
         for(FoodManage foodAddName : resManage.foodRead) {
             food.add(foodAddName.getFoodName());
@@ -58,7 +57,7 @@ public class Restaurant {
 	}
 
 	private static void printCheck(String ordername, int Amount, double finalPrice) {
-		System.out.printf("|  %-16s|%6d   |   %6.1f |%n", ordername, Amount, finalPrice);
+		System.out.printf("|  %-16s|%6d   |   %7.1f |%n", ordername, Amount, finalPrice);
 	}
 
 	private static void totalPriceChange() {
@@ -79,7 +78,7 @@ public class Restaurant {
 				}
 			}
 			System.out.println("+----------------------------------------+");
-			System.out.printf("|  %-26s|   %6.1f |%n", name[1], totalAll[0]);
+			System.out.printf("|  %-26s|   %7.1f |%n", name[1], totalAll[0]);
 			System.out.println("+----------------------------------------+");
 
 		}
@@ -133,10 +132,19 @@ public class Restaurant {
 
 		}
 
-		System.out.println("\nChange :" + (pay[0] - total+" Bath."));
+		printReceipt(total);
+	}
+	public static void printReceipt(double total){
+        RestaurantManager resRecord = new RestaurantManager();
+        resRecord.recordOrder();
+        System.out.println("\n****Receipt****");
+        printTotal(food.size()+1);
+		System.out.printf("|  %-26s|   %7.1f |%n", "Pay :", pay[0]);
+		System.out.printf("|  %-26s|   %7s |%n", "", "");
+		System.out.printf("|  %-26s|   %7.1f |%n", "Change :", pay[0]-total);
+		System.out.println("+----------------------------------------+");
 		System.out.printf("%n========= Thank you =========");
 	}
-
 	public static void main(String[] args) {
         setResFood();
 		Amount = new int[foodPrice.size()];
