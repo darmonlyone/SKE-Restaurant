@@ -12,6 +12,10 @@ public class RestaurantManager extends Restaurant{
     private int orderCount = 1;
     List<String> recordOld = new ArrayList<>();
 
+    public int getOrderCount() {
+        return orderCount;
+    }
+
     public void getRecordOrder(){
         Scanner reader = new Scanner(getFile(fileRecordIo));
         while(reader.hasNextLine()) {
@@ -40,6 +44,7 @@ public class RestaurantManager extends Restaurant{
                 PrintStream.println(PutOldOrder);
             }
             PrintStream.printf("Order number : %s%n",orderCount);
+            PrintStream.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
             PrintStream.printf("+------ %s ------+-- %s --+-- %s --+%n", name[4], name[6], name[7]);
             for (int i = 0; i < food.size(); i++) {
                 if (Amount[i] > 0) {
