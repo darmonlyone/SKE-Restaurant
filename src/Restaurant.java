@@ -172,7 +172,6 @@ public class Restaurant {
 		for (int i = 0; i < food.size(); i++) {
 			if (Amount[i] > 0) {
 				System.out.printf(" %s ", food.get(i));
-				if (i<food.size()-2) System.out.print(",");
 			}
 		}
 		System.out.println("}");
