@@ -1,4 +1,8 @@
-public class FoodManage extends Restaurant{
+/*
+*This class for setting menu as Name and Price
+*/
+
+public class FoodManage extends RestaurantManager{
 
     private String foodName;
     private double price;

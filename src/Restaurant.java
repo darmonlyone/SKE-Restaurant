@@ -5,8 +5,17 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/*
+* Main class for SKE Restaurarnt order taking application.
+* It display a menu by using FoodManage class to manage a menu.
+* Using RestaurantManger class for get menu and record receipt.
+* When done, it prints a receipt and save receipt thought RestaurantManger class.
+*
+*  @author Manusporn Fukkham
+*/
 
 public class Restaurant {
+
 	static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 	static Date myDate = new Date(System.currentTimeMillis());
@@ -20,6 +29,8 @@ public class Restaurant {
 	static double[] totalAll = new double[1];
 	static double[] totalPrice;
 	static double[] pay = new double[1];
+
+	//set menu and food price
 	private static void setResFood(){
 
 	    RestaurantManager resManage = new RestaurantManager();
@@ -31,6 +42,7 @@ public class Restaurant {
             foodPrice.add(foodAddPrice.getPrice());
         }
 	}
+	//print a menu
 	private static void printMenu() {
 		System.out.printf("********** %s **********%n", name[0]);
 		System.out.printf("%5s%s%19s%s %n","", name[4],"", name[5]);
@@ -48,6 +60,7 @@ public class Restaurant {
 		System.out.print(prompt);
 		return sc.nextInt();
 	}
+
 	private static String getScanString(String prompt) {
 		System.out.print(prompt);
 		return sc.nextLine();
@@ -57,6 +70,7 @@ public class Restaurant {
 		return a - 1;
 	}
 
+	//return total price
 	private static int totals() {
 		int result = 0;
 		for (int i = 0; i <totalPrice.length ; i++) {

@@ -3,8 +3,12 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-
-
+/*
+* This class for taking or recording to log file.
+* Using fileLoader and scanner to taking a menu and price from log file.
+* Using fileOutputStream for record receipt from Restaurant class.
+*
+*/
 public class RestaurantManager extends Restaurant{
 
     private final String fileRecord = "src/data/RecordOrder.log";
@@ -16,14 +20,14 @@ public class RestaurantManager extends Restaurant{
         return orderCount;
     }
 
-    public void getRecordOrder(){
+    public void setRecordOrder(){
         Scanner reader = new Scanner(getFile(fileRecordIo));
         while(reader.hasNextLine()) {
                 recordOld.add(reader.nextLine());
             }
         recordOld.add("");
     }
-    public void getRecordCount() {
+    public void setRecordCount() {
         Scanner reader = new Scanner(getFile(fileRecordIo));
         while (reader.hasNextLine()) {
             String[] recover = reader.nextLine().split("  ");
@@ -35,8 +39,8 @@ public class RestaurantManager extends Restaurant{
 
     public void recordOrder(){
         OutputStream Ops = null;
-        getRecordCount();
-        getRecordOrder();
+        setRecordCount();
+        setRecordOrder();
         try{
             Ops = new FileOutputStream(fileRecord);
             PrintStream PrintStream = new PrintStream(Ops);
