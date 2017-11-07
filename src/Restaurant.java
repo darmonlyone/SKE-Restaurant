@@ -91,7 +91,7 @@ public class Restaurant {
 	}
 
 	private static void printCheck(String ordername, int Amount, double finalPrice) {
-		System.out.printf("|  %-16s|%6d   |   %7.2f |%n", ordername, Amount, finalPrice);
+		System.out.printf("|  %-16s|%7d  |   %11.2f |%n", ordername, Amount, finalPrice);
 	}
 
 	private static void totalPriceChange() {
@@ -105,15 +105,15 @@ public class Restaurant {
 		totalAll[0] = totals();
 
 		if (ipOrder.equalsIgnoreCase("P")) {
-			System.out.printf("+------ %s ------+-- %s --+-- %s --+%n", name[4], name[6], name[7]);
+			System.out.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
 			for (int i = 0; i < food.size(); i++) {
 				if (Amount[i] > 0) {
 					printCheck(food.get(i), Amount[i], totalPrice[i]);
 				}
 			}
-			System.out.println("+----------------------------------------+");
-			System.out.printf("|  %-26s|   %7.2f |%n", name[1], totalAll[0]);
-			System.out.println("+----------------------------------------+");
+			System.out.println("+--------------------------------------------+");
+			System.out.printf("|  %-26s|   %11.2f |%n", name[1], totalAll[0]);
+			System.out.println("+--------------------------------------------+");
 
 		}
 	}
@@ -220,10 +220,10 @@ public class Restaurant {
 		System.out.printf("Receipt No. %d%n" ,resRecord.getOrderCount());
 		System.out.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
 		priceTotal("P");
-		System.out.printf("|  %-26s|   %7.2f |%n", "Pay :", pay[0]);
-		System.out.printf("|  %-26s|   %7s |%n", "", "");
-		System.out.printf("|  %-26s|   %7.2f |%n", "Change :", pay[0]-total);
-		System.out.println("+----------------------------------------+");
+		System.out.printf("|  %-26s|   %11.2f |%n", "Pay :", pay[0]);
+		System.out.printf("|  %-26s|   %11s |%n", "", "");
+		System.out.printf("|  %-26s|   %11.2f |%n", "Change :", pay[0]-total);
+		System.out.println("+--------------------------------------------+");
 		System.out.printf("%n========= Thank you =========");
 	}
 	private static void addMenuRequest(){

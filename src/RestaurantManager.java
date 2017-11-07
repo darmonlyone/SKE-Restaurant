@@ -49,18 +49,18 @@ public class RestaurantManager extends Restaurant{
             }
             PrintStream.printf("Order number : %s%n",orderCount);
             PrintStream.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
-            PrintStream.printf("+------ %s ------+-- %s --+-- %s --+%n", name[4], name[6], name[7]);
+            PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
             for (int i = 0; i < food.size(); i++) {
                 if (Amount[i] > 0) {
-                    PrintStream.printf("|  %-16s|%6d   |   %7.2f |%n", food.get(i), Amount[i], totalPrice[i]);
+                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", food.get(i), Amount[i], totalPrice[i]);
                 }
             }
-            PrintStream.println("+----------------------------------------+");
-            PrintStream.printf("|  %-26s|   %7.2f |%n", name[1], totalAll[0]);
-            PrintStream.printf("|  %-26s|   %7.2f |%n", "Pay :", pay[0]);
-            PrintStream.printf("|  %-26s|   %7s |%n", "", "");
-            PrintStream.printf("|  %-26s|   %7.2f |%n", "Change :", pay[0]-totalAll[0]);
-            PrintStream.println("+----------------------------------------+");
+            PrintStream.println("+--------------------------------------------+");
+            PrintStream.printf("|  %-26s|   %11.2f |%n", name[1], totalAll[0]);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", pay[0]);
+            PrintStream.printf("|  %-26s|   %11s |%n", "", "");
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", pay[0]-totalAll[0]);
+            PrintStream.println("+--------------------------------------------+");
 
         } catch (FileNotFoundException e){
             System.out.println("Couldn't open output file " + fileRecord);
