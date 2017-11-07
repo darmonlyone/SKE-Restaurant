@@ -25,9 +25,9 @@ public class Restaurant {
 	static Scanner sc = new Scanner(System.in);
 
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
-	static int[] Amount;
+	static int[] Amount = new int[100];
 	static double[] totalAll = new double[1];
-	static double[] totalPrice;
+	static double[] totalPrice = new double[100];
 	static double[] pay = new double[1];
 
 	//set menu and food price
@@ -239,9 +239,6 @@ public class Restaurant {
 	}
 	public static void main(String[] args) {
         setResFood();
-		Amount = new int[1000];
-		totalPrice = new double[1000];
-
 		printMenu();
 		getOrder();
 		getPay(totalAll[0]);
