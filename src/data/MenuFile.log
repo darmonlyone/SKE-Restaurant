@@ -1,11 +1,13 @@
 ##  You can add Order and Price if you want
 ##  "Order"(space)(:)(space)"Price"
 
-Pizza : 250
-Chicken : 120
-Tom Yum Kung : 90
-Fried Rice : 80
-Coke : 45
-Cookie : 20
-Water : 15
-Rice : 10
+Pizza : 250.00
+Chicken : 120.00
+Tom Yum Kung : 90.00
+Fried Rice : 80.00
+Coke : 45.00
+Cookie : 20.00
+Water : 15.00
+Rice : 10.00
+Donut : 5.50
+Hate : 0.50

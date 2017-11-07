@@ -39,8 +39,8 @@ public class RestaurantManager extends Restaurant{
 
     public void recordOrder(){
         OutputStream Ops = null;
-        setRecordCount();
         setRecordOrder();
+        setRecordCount();
         try{
             Ops = new FileOutputStream(fileRecord);
             PrintStream PrintStream = new PrintStream(Ops);
@@ -52,14 +52,14 @@ public class RestaurantManager extends Restaurant{
             PrintStream.printf("+------ %s ------+-- %s --+-- %s --+%n", name[4], name[6], name[7]);
             for (int i = 0; i < food.size(); i++) {
                 if (Amount[i] > 0) {
-                    PrintStream.printf("|  %-16s|%6d   |   %7.1f |%n", food.get(i), Amount[i], totalPrice[i]);
+                    PrintStream.printf("|  %-16s|%6d   |   %7.2f |%n", food.get(i), Amount[i], totalPrice[i]);
                 }
             }
             PrintStream.println("+----------------------------------------+");
-            PrintStream.printf("|  %-26s|   %7.1f |%n", name[1], totalAll[0]);
-            PrintStream.printf("|  %-26s|   %7.1f |%n", "Pay :", pay[0]);
+            PrintStream.printf("|  %-26s|   %7.2f |%n", name[1], totalAll[0]);
+            PrintStream.printf("|  %-26s|   %7.2f |%n", "Pay :", pay[0]);
             PrintStream.printf("|  %-26s|   %7s |%n", "", "");
-            PrintStream.printf("|  %-26s|   %7.1f |%n", "Change :", pay[0]-totalAll[0]);
+            PrintStream.printf("|  %-26s|   %7.2f |%n", "Change :", pay[0]-totalAll[0]);
             PrintStream.println("+----------------------------------------+");
 
         } catch (FileNotFoundException e){
@@ -69,22 +69,48 @@ public class RestaurantManager extends Restaurant{
     }
 
     List<FoodManage> foodRead = new ArrayList<>();
-    private final String fileName = "data/MenuFile.log";
+    private final String fileNameIo = "data/MenuFile.log";
+    private final String fileName = "src/data/MenuFile.log";
 
-    public void setMenu(){
+    public void setMenu() {
 
-       Scanner reader = new Scanner( getFile(fileName));
-        while(reader.hasNextLine()) {
-        String[] menu = reader.nextLine().replaceAll(" : ", "  ").split("  ");
-        if (!menu[0].isEmpty()) {
-            if (!menu[0].equals("##")) {
-                foodRead.add(new FoodManage(menu[0], Double.parseDouble(menu[1])));
+        Scanner reader = new Scanner(getFile(fileNameIo));
+        while (reader.hasNextLine()) {
+            String[] menu = reader.nextLine().replaceAll(" : ", "  ").split("  ");
+            if (!menu[0].isEmpty()) {
+                if (!menu[0].equals("##")) {
+                    foodRead.add(new FoodManage(menu[0], Double.parseDouble(menu[1])));
+                }
             }
-          }
 
+        }
+    }
+
+    List<String> oldMenu =  new ArrayList<>();
+    public void setAddmenu(){
+        Scanner reader = new Scanner(getFile(fileNameIo));
+        while(reader.hasNextLine()) {
+            oldMenu.add(reader.nextLine());
         }
 
     }
+        public void addMenu(String foodAdd, double priceAdd){
+             setAddmenu();
+
+            OutputStream Ops = null;
+            try {
+                Ops = new FileOutputStream(fileName);
+                PrintStream PrintStream = new PrintStream(Ops);
+                for (String PutOldOrder : oldMenu) {
+                    PrintStream.println(PutOldOrder);
+                }
+                PrintStream.printf("%s : %.2f",foodAdd,priceAdd);
+            }catch (FileNotFoundException e){
+                    System.out.println("Couldn't open output file " + fileName);
+                    System.exit(3);
+                }
+    }
+
     public InputStream getFile(String file) {
         ClassLoader loader = RestaurantManager.class.getClassLoader();
         InputStream iS = loader.getResourceAsStream(file);

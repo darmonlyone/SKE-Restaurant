@@ -32,7 +32,8 @@ public class Restaurant {
 
 	//set menu and food price
 	private static void setResFood(){
-
+		food.clear();
+		foodPrice.clear();
 	    RestaurantManager resManage = new RestaurantManager();
 	    resManage.setMenu();
         for(FoodManage foodAddName : resManage.foodRead) {
@@ -41,6 +42,7 @@ public class Restaurant {
         for(FoodManage foodAddPrice : resManage.foodRead){
             foodPrice.add(foodAddPrice.getPrice());
         }
+        resManage.foodRead.clear();
 	}
 	//print a menu
 	private static void printMenu() {
@@ -48,12 +50,13 @@ public class Restaurant {
 		System.out.printf("%5s%s%19s%s %n","", name[4],"", name[5]);
 		System.out.printf("%4s-------%16s------ %n","","");
 		for (int i = 0; i < food.size() ; i++) {
-			System.out.printf("%d.) %-20s%6.1f\t%s.%n",i+1, food.get(i), foodPrice.get(i), name[3]);
+			System.out.printf("%d.) %-20s%6.2f\t%s.%n",i+1, food.get(i), foodPrice.get(i), name[3]);
 		}
 		System.out.printf("%n(%s) %-5s%n","P", "Print order");
 		System.out.printf("(%s) %-5s%n","C", "Cancel order");
 		System.out.printf("(%s) %-5s%n","M", "Menu");
 		System.out.printf("(%s) %-5s%n","E", "Check out");
+		System.out.printf("(%s) %-5s%n","A", "Add New food on the menu");
 	}
 
 	private static int getScanInt(String prompt) {
@@ -64,6 +67,10 @@ public class Restaurant {
 	private static String getScanString(String prompt) {
 		System.out.print(prompt);
 		return sc.nextLine();
+	}
+	private static Double getScanDouble(String prompt) {
+		System.out.print(prompt);
+		return sc.nextDouble();
 	}
 
 	private static int name(int a) {
@@ -84,7 +91,7 @@ public class Restaurant {
 	}
 
 	private static void printCheck(String ordername, int Amount, double finalPrice) {
-		System.out.printf("|  %-16s|%6d   |   %7.1f |%n", ordername, Amount, finalPrice);
+		System.out.printf("|  %-16s|%6d   |   %7.2f |%n", ordername, Amount, finalPrice);
 	}
 
 	private static void totalPriceChange() {
@@ -105,7 +112,7 @@ public class Restaurant {
 				}
 			}
 			System.out.println("+----------------------------------------+");
-			System.out.printf("|  %-26s|   %7.1f |%n", name[1], totalAll[0]);
+			System.out.printf("|  %-26s|   %7.2f |%n", name[1], totalAll[0]);
 			System.out.println("+----------------------------------------+");
 
 		}
@@ -149,6 +156,8 @@ public class Restaurant {
 			}
 			else if (ipOrder.equalsIgnoreCase("M"))
 				printMenu();
+			else if (ipOrder.equalsIgnoreCase("A"))
+				addMenuRequest();
 			else if (ipOrder.equalsIgnoreCase("P"));
 			else if (ipOrder.equalsIgnoreCase("C"))
 				getCancel();
@@ -211,16 +220,27 @@ public class Restaurant {
 		System.out.printf("Receipt No. %d%n" ,resRecord.getOrderCount());
 		System.out.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
 		priceTotal("P");
-		System.out.printf("|  %-26s|   %7.1f |%n", "Pay :", pay[0]);
+		System.out.printf("|  %-26s|   %7.2f |%n", "Pay :", pay[0]);
 		System.out.printf("|  %-26s|   %7s |%n", "", "");
-		System.out.printf("|  %-26s|   %7.1f |%n", "Change :", pay[0]-total);
+		System.out.printf("|  %-26s|   %7.2f |%n", "Change :", pay[0]-total);
 		System.out.println("+----------------------------------------+");
 		System.out.printf("%n========= Thank you =========");
 	}
+	private static void addMenuRequest(){
+		RestaurantManager addMenu = new RestaurantManager();
+		String addFood = getScanString("What food you want to add to the menu:");
+		Double addPrice = getScanDouble("What price is it:");
+		sc.nextLine();
+		addMenu.addMenu(addFood,addPrice);
+		food.add(addFood);
+		foodPrice.add(addPrice);
+
+		System.out.println("Done add menu");
+	}
 	public static void main(String[] args) {
         setResFood();
-		Amount = new int[foodPrice.size()];
-		totalPrice = new double[foodPrice.size()];
+		Amount = new int[1000];
+		totalPrice = new double[1000];
 
 		printMenu();
 		getOrder();
