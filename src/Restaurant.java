@@ -26,9 +26,8 @@ public class Restaurant {
 
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
 	static int[] Amount = new int[100];
-	static double[] totalAll = new double[1];
+	static double allPriceTotal,amountPay;
 	static double[] totalPrice = new double[100];
-	static double[] pay = new double[1];
 
 	//set menu and food price
 	private static void setResFood(){
@@ -102,7 +101,7 @@ public class Restaurant {
 
 	private static void priceTotal(String ipOrder) {
 		totalPriceChange();
-		totalAll[0] = totals();
+		allPriceTotal = totals();
 
 		if (ipOrder.equalsIgnoreCase("P")) {
 			System.out.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
@@ -112,7 +111,7 @@ public class Restaurant {
 				}
 			}
 			System.out.println("+--------------------------------------------+");
-			System.out.printf("|  %-26s|   %11.2f |%n", name[1], totalAll[0]);
+			System.out.printf("|  %-26s|   %11.2f |%n", name[1], allPriceTotal);
 			System.out.println("+--------------------------------------------+");
 
 		}
@@ -175,14 +174,14 @@ public class Restaurant {
 	}
 
 	private static void getPay(double total) {
-		System.out.println("\nYou need to getPay :" + total+" Bath.");
+		System.out.println("\nYou need to pay :" + total+" Bath.");
 
 		while (true) {
 			double payy = getScanInt("Put your cash: ");
 			if (payy < total)
 				System.out.println("Not enough ");
 			else {
-				pay[0] = payy;
+				amountPay = payy;
 				break;
 			}
 
@@ -220,9 +219,9 @@ public class Restaurant {
 		System.out.printf("Receipt No. %d%n" ,resRecord.getOrderCount());
 		System.out.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
 		priceTotal("P");
-		System.out.printf("|  %-26s|   %11.2f |%n", "Pay :", pay[0]);
+		System.out.printf("|  %-26s|   %11.2f |%n", "Pay :", amountPay);
 		System.out.printf("|  %-26s|   %11s |%n", "", "");
-		System.out.printf("|  %-26s|   %11.2f |%n", "Change :", pay[0]-total);
+		System.out.printf("|  %-26s|   %11.2f |%n", "Change :", amountPay-total);
 		System.out.println("+--------------------------------------------+");
 		System.out.printf("%n========= Thank you =========");
 	}
@@ -241,6 +240,6 @@ public class Restaurant {
         setResFood();
 		printMenu();
 		getOrder();
-		getPay(totalAll[0]);
+		getPay(allPriceTotal);
 	}
 }

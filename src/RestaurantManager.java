@@ -56,10 +56,10 @@ public class RestaurantManager extends Restaurant{
                 }
             }
             PrintStream.println("+--------------------------------------------+");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", name[1], totalAll[0]);
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", pay[0]);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", name[1], allPriceTotal);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", amountPay);
             PrintStream.printf("|  %-26s|   %11s |%n", "", "");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", pay[0]-totalAll[0]);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", amountPay- allPriceTotal);
             PrintStream.println("+--------------------------------------------+");
 
         } catch (FileNotFoundException e){
