@@ -111,6 +111,7 @@ public class RestaurantManager extends Restaurant{
                     System.out.println("Couldn't open output file " + fileName);
                     System.exit(3);
                 }
+                oldMenu.clear();
     }
 
     public List<String> getMenuItem(){

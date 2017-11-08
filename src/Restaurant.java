@@ -1,4 +1,3 @@
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.text.DateFormat;
@@ -16,6 +15,10 @@ import java.util.Date;
 
 public class Restaurant {
 
+	// Sorry for using all Array as ArrayList
+	// i use ArrayList because i cannot fix a bug
+	// that when you add new food on file and its
+	// need to change length of Array but its can't change
 	static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 	static Date myDate = new Date(System.currentTimeMillis());
@@ -23,20 +26,20 @@ public class Restaurant {
 	static List<Double> foodPrice;
 	static Scanner sc = new Scanner(System.in);
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
-	static int[] Amount = new int[100];
+	// for limit menu, cannot have more than 20
+	static int[] Amount = new int[20];
+	static double[] totalPrice = new double[20];
 	static double allPriceTotal,amountPay;
-	static double[] totalPrice = new double[100];
 
 	//set menu and food price
 	private static void setResFood(){
-//		food.clear();
-//		foodPrice.clear();
 	    RestaurantManager resManage = new RestaurantManager();
 	    resManage.setMenu();
         food = resManage.getMenuItem();
         foodPrice = resManage.getMenuPrice();
         resManage.foodRead.clear();
 	}
+
 	//print a menu
 	private static void printMenu() {
 		System.out.printf("********** %s **********%n", name[0]);
@@ -167,7 +170,7 @@ public class Restaurant {
 		}
 	}
 
-	private static void getPay(double total) {
+	private static void setPay(double total) {
 		System.out.println("\nYou need to pay :" + total+" Bath.");
 
 		while (true) {
@@ -234,6 +237,6 @@ public class Restaurant {
         setResFood();
 		printMenu();
 		getOrder();
-		getPay(allPriceTotal);
+		setPay(allPriceTotal);
 	}
 }
