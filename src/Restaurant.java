@@ -19,8 +19,8 @@ public class Restaurant {
 	static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 	static Date myDate = new Date(System.currentTimeMillis());
-    static List<String> food = new ArrayList<>();
-	static List<Double> foodPrice = new ArrayList<>();
+    static List<String> food;
+	static List<Double> foodPrice;
 	static Scanner sc = new Scanner(System.in);
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
 	static int[] Amount = new int[100];
@@ -29,16 +29,12 @@ public class Restaurant {
 
 	//set menu and food price
 	private static void setResFood(){
-		food.clear();
-		foodPrice.clear();
+//		food.clear();
+//		foodPrice.clear();
 	    RestaurantManager resManage = new RestaurantManager();
 	    resManage.setMenu();
-        for(FoodManage foodAddName : resManage.foodRead) {
-            food.add(foodAddName.getFoodName());
-        }
-        for(FoodManage foodAddPrice : resManage.foodRead){
-            foodPrice.add(foodAddPrice.getPrice());
-        }
+        food = resManage.getMenuItem();
+        foodPrice = resManage.getMenuPrice();
         resManage.foodRead.clear();
 	}
 	//print a menu

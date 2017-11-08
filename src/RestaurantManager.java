@@ -113,6 +113,21 @@ public class RestaurantManager extends Restaurant{
                 }
     }
 
+    public List<String> getMenuItem(){
+            List<String> item = new ArrayList<>();
+            for (FoodManage menuItems : foodRead){
+                item.add(menuItems.getFoodName());
+            }
+            return item;
+    }
+    public List<Double> getMenuPrice(){
+        List<Double> itemPrice = new ArrayList<>();
+        for (FoodManage menuPrice : foodRead){
+            itemPrice.add(menuPrice.getPrice());
+        }
+        return itemPrice;
+    }
+
     public InputStream getFile(String file) {
         ClassLoader loader = RestaurantManager.class.getClassLoader();
         InputStream iS = loader.getResourceAsStream(file);
