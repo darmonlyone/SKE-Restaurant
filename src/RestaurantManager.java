@@ -84,6 +84,7 @@ public class RestaurantManager extends Restaurant{
             }
 
         }
+        reader.close();
     }
 
     List<String> oldMenu =  new ArrayList<>();
@@ -92,6 +93,7 @@ public class RestaurantManager extends Restaurant{
         while(reader.hasNextLine()) {
             oldMenu.add(reader.nextLine());
         }
+        reader.close();
 
     }
         public void addMenu(String foodAdd, double priceAdd){

@@ -19,11 +19,9 @@ public class Restaurant {
 	static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 	static Date myDate = new Date(System.currentTimeMillis());
-
     static List<String> food = new ArrayList<>();
 	static List<Double> foodPrice = new ArrayList<>();
 	static Scanner sc = new Scanner(System.in);
-
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
 	static int[] Amount = new int[100];
 	static double allPriceTotal,amountPay;
