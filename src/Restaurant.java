@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.text.DateFormat;
@@ -26,9 +27,8 @@ public class Restaurant {
 	static List<Double> foodPrice;
 	static Scanner sc = new Scanner(System.in);
 	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
-	// for limit menu, cannot have more than 20
-	static int[] Amount = new int[20];
-	static double[] totalPrice = new double[20];
+	static List<Integer> quantity = new ArrayList<>();
+	static List<Double> totalPrice = new ArrayList<>();
 	static double allPriceTotal,amountPay;
 
 	//set menu and food price
@@ -37,7 +37,11 @@ public class Restaurant {
 	    resManage.setMenu();
         food = resManage.getMenuItem();
         foodPrice = resManage.getMenuPrice();
-        resManage.foodRead.clear();
+		for (int i = 0; i < food.size() ; i++) {
+			quantity.add(0);
+			totalPrice.add(0.00);
+		}
+		resManage.foodRead.clear();
 	}
 
 	//print a menu
@@ -52,7 +56,7 @@ public class Restaurant {
 		System.out.printf("(%s) %-5s%n","C", "Cancel order");
 		System.out.printf("(%s) %-5s%n","M", "Menu");
 		System.out.printf("(%s) %-5s%n","E", "Check out");
-		System.out.printf("(%s) %-5s%n","A", "Add New food on the menu");
+		System.out.printf("(%s) %-5s%n","A", "Add New food on the menu (You can request only one time)");
 	}
 
 	private static int getScanInt(String prompt) {
@@ -64,20 +68,16 @@ public class Restaurant {
 		System.out.print(prompt);
 		return sc.nextLine();
 	}
-	private static Double getScanDouble(String prompt) {
-		System.out.print(prompt);
-		return sc.nextDouble();
-	}
 
 	private static int name(int a) {
 		return a - 1;
 	}
 
 	//return total price
-	private static int totals() {
-		int result = 0;
-		for (int i = 0; i <totalPrice.length ; i++) {
-			result += totalPrice[i];
+	private static double totals() {
+		double result = 0;
+		for (int i = 0; i < totalPrice.size() ; i++) {
+			result += totalPrice.get(i);
 		}
 		return result;
 	}
@@ -92,19 +92,18 @@ public class Restaurant {
 
 	private static void totalPriceChange() {
 		for (int i = 0; i < foodPrice.size(); i++) {
-			totalPrice[i] = Amount[i] * foodPrice.get(i);
+			totalPrice.set(i,quantity.get(i)*foodPrice.get(i));
 		}
 	}
 
 	private static void priceTotal(String ipOrder) {
 		totalPriceChange();
 		allPriceTotal = totals();
-
 		if (ipOrder.equalsIgnoreCase("P")) {
 			System.out.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
 			for (int i = 0; i < food.size(); i++) {
-				if (Amount[i] > 0) {
-					printCheck(food.get(i), Amount[i], totalPrice[i]);
+				if (quantity.get(i) > 0) {
+					printCheck(food.get(i), quantity.get(i), totalPrice.get(i));
 				}
 			}
 			System.out.println("+--------------------------------------------+");
@@ -115,23 +114,29 @@ public class Restaurant {
 	}
 
 	private static void printAmountOrder(int ipOrder) {
-		if (ipOrder != food.size()+1 && ipOrder < food.size()+2 && ipOrder > 0) {
-			int ipAmount = getScanInt("Enter Quantity: ");
-			sc.nextLine();//Bug fix.
-			for (int j = 0; j < food.size(); j++) {
-				if (ipOrder == j + 1) {
-					Amount[j] += ipAmount;
+			while (true) {
+				String ipAmountString = getScanString("Enter Quantity: ");
+				if (isNumber(ipAmountString)) {
+					int ipAmount = Integer.parseInt(ipAmountString);
+					for (int j = 0; j < food.size(); j++) {
+						if (ipOrder == j + 1) {
+							quantity.set(j,quantity.get(j)+ipAmount);
+						}
+					}
+
+					System.out.printf("You order %d %s.%n", ipAmount, food.get(name(ipOrder)).toLowerCase());
+
+					for (int i = 0; i < food.size(); i++) {
+						if (quantity.get(i) > 0) {
+							printOrder(food.get(i), quantity.get(i));
+						}
+					}
+					break;
+				} else {
+					System.out.println("Try again ......");
 				}
 			}
 
-			System.out.printf("You order %d %s.%n", ipAmount, food.get(name(ipOrder)).toLowerCase());
-
-			for (int i = 0; i < food.size(); i++) {
-				if (Amount[i] > 0) {
-					printOrder(food.get(i), Amount[i]);
-				}
-			}
-		}
 	}
 	private static boolean isNumber(String ipOrder){
 		try {
@@ -141,22 +146,55 @@ public class Restaurant {
 			return false;
 		}
 	}
+	private static boolean isFloat(String ipOrder){
+		try {
+			Double.parseDouble(ipOrder);
+			return true;
+		} catch(NumberFormatException ex) {
+			return false;
+		}
+	}
+	private static void cantOrder(){
+		System.out.println("You need to order some food first");
+	}
+
+	static boolean addRequest = true;
 
 	private static void getOrder() {
 		while (true) {
 			String ipOrder = getScanString("\nEnter your order: ");
 
 			if (ipOrder.equalsIgnoreCase("E")) {
-				System.out.println("\nChecking out....");
-				return;
-			}
+				if ((food.size() != 0)) {
+					System.out.println("\nChecking out....");
+					return;
+					} else cantOrder();
+				}
 			else if (ipOrder.equalsIgnoreCase("M"))
 				printMenu();
-			else if (ipOrder.equalsIgnoreCase("A"))
-				addMenuRequest();
-			else if (ipOrder.equalsIgnoreCase("P"));
-			else if (ipOrder.equalsIgnoreCase("C"))
-				getCancel();
+			//You can add new menu only one time
+			else if (ipOrder.equalsIgnoreCase("A")) {
+				if(addRequest) {
+					addMenuRequest();
+				}else{
+					System.out.println("You already have request adding food");
+				}
+			}
+				else if (ipOrder.equalsIgnoreCase("P")) {
+					boolean isit = false;
+				for (int i = 0; i <quantity.size() ; i++) {
+					if (quantity.get(i)!=0) {
+						priceTotal(ipOrder);
+						isit = true;
+						break;
+						}
+					}if(!isit)cantOrder();
+				}
+				else if (ipOrder.equalsIgnoreCase("C")){
+					if ((allPriceTotal != 0)) {
+						getCancel();
+					} else cantOrder();
+				}
 			else if (isNumber(ipOrder)){
 				if(Integer.parseInt(ipOrder) > food.size() || Integer.parseInt(ipOrder) < 1 )
 					System.out.println("Try Again...");
@@ -165,7 +203,7 @@ public class Restaurant {
 			}
 			else System.out.println("Try Again...");
 
-			priceTotal(ipOrder);
+
 
 		}
 	}
@@ -189,25 +227,30 @@ public class Restaurant {
 	private static void getCancel(){
 		System.out.print("You have order = {");
 		for (int i = 0; i < food.size(); i++) {
-			if (Amount[i] > 0) {
+			if (quantity.get(i) > 0) {
 				System.out.printf(" %s ", food.get(i));
 			}
 		}
 		System.out.println("}");
+		boolean isit = false;
 		String cancel = getScanString("What menu you want to cancel (Write the name): ");
-		if(food.contains(cancel)) {
-			for (int i = 0; i < food.size(); i++) {
-				if (cancel.equalsIgnoreCase(food.get(i))) {
-					Amount[i] = 0;
-					System.out.println("Done canceling");
-					break;
+		for (int j = 0 ; j < food.size() ; j++) {
+			if (food.get(j).toLowerCase().equalsIgnoreCase(cancel)) {
+				for (int i = 0; i < food.size(); i++) {
+					if (cancel.equalsIgnoreCase(food.get(i).toLowerCase())) {
+						quantity.set(i, 0);
+						System.out.println("Done canceling");
+						isit = true;
+						break;
+					}
 				}
+				break;
 			}
-		}else{
-			System.out.println("Its not on the list");
+
 		}
-
-
+			if (!isit){
+			System.out.println("Its not on the list");
+			return;}
 	}
 	private static void printReceipt(double total){
         RestaurantManager resRecord = new RestaurantManager();
@@ -223,13 +266,23 @@ public class Restaurant {
 		System.out.printf("%n========= Thank you =========");
 	}
 	private static void addMenuRequest(){
+		double addPrice;
 		RestaurantManager addMenu = new RestaurantManager();
 		String addFood = getScanString("What food you want to add to the menu:");
-		Double addPrice = getScanDouble("What price is it:");
-		sc.nextLine();
+		String addPriceString = getScanString("What price is it:");
+		if(isFloat(addPriceString)) {
+			addPrice = Double.parseDouble(addPriceString);
+			addRequest = false;
+		}else{
+			System.out.println("Pleas input number not string");
+			System.out.println("Try again later...");
+			return;
+		}
 		addMenu.addMenu(addFood,addPrice);
 		food.add(addFood);
 		foodPrice.add(addPrice);
+		quantity.add(0);
+		totalPrice.add(0.00);
 
 		System.out.println("Done add menu");
 	}

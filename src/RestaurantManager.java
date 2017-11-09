@@ -51,8 +51,8 @@ public class RestaurantManager extends Restaurant{
             PrintStream.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
             PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
             for (int i = 0; i < food.size(); i++) {
-                if (Amount[i] > 0) {
-                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", food.get(i), Amount[i], totalPrice[i]);
+                if (quantity.get(i) > 0) {
+                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", food.get(i), quantity.get(i), totalPrice.get(i));
                 }
             }
             PrintStream.println("+--------------------------------------------+");
@@ -97,7 +97,7 @@ public class RestaurantManager extends Restaurant{
 
     }
         public void addMenu(String foodAdd, double priceAdd){
-             setAddmenu();
+        setAddmenu();
 
             OutputStream Ops = null;
             try {

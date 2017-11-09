@@ -2,7 +2,7 @@
 *This class for setting menu as Name and Price
 */
 
-public class FoodManage extends RestaurantManager{
+public class FoodManage{
 
     private String foodName;
     private double price;
