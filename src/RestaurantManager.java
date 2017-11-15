@@ -14,7 +14,7 @@ public class RestaurantManager extends Restaurant{
     private final String fileRecord = "src/data/RecordOrder.log";
     private final String fileRecordIo = "data/RecordOrder.log";
     private int orderCount = 1;
-    List<String> recordOld = new ArrayList<>();
+    private List<String> recordOld = new ArrayList<>();
 
     public int getOrderCount() {
         return orderCount;
@@ -48,18 +48,18 @@ public class RestaurantManager extends Restaurant{
                 PrintStream.println(PutOldOrder);
             }
             PrintStream.printf("Order number : %s%n",orderCount);
-            PrintStream.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
-            PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
-            for (int i = 0; i < food.size(); i++) {
-                if (quantity.get(i) > 0) {
-                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", food.get(i), quantity.get(i), totalPrice.get(i));
+            PrintStream.printf("%s : %s , %s : %s%n","Date",getDateFormat().format(getMyDate().getTime()),"Time",getTimeFormat().format(getMyDate().getTime()));
+            PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", "Menu", "Qty", "Price");
+            for (int i = 0; i < getFood().length; i++) {
+                if (getQuantity()[i] > 0) {
+                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", getFood()[i], getQuantity()[i], getTotalPrice()[i]);
                 }
             }
             PrintStream.println("+--------------------------------------------+");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", name[1], allPriceTotal);
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", amountPay);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Total", getAllPriceTotal());
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", getAmountPay());
             PrintStream.printf("|  %-26s|   %11s |%n", "", "");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", amountPay- allPriceTotal);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", getAmountPay() - getAllPriceTotal());
             PrintStream.println("+--------------------------------------------+");
 
         } catch (FileNotFoundException e){
@@ -68,9 +68,13 @@ public class RestaurantManager extends Restaurant{
         }
     }
 
-    List<FoodManage> foodRead = new ArrayList<>();
+    private List<FoodManage> foodRead = new ArrayList<>();
     private final String fileNameIo = "data/MenuFile.log";
     private final String fileName = "src/data/MenuFile.log";
+
+    public void clearFoodRead(){
+        foodRead.clear();
+    }
 
     public void setMenu() {
 
@@ -87,7 +91,7 @@ public class RestaurantManager extends Restaurant{
         reader.close();
     }
 
-    List<String> oldMenu =  new ArrayList<>();
+    private List<String> oldMenu =  new ArrayList<>();
     public void setAddmenu(){
         Scanner reader = new Scanner(getFile(fileNameIo));
         while(reader.hasNextLine()) {
@@ -114,17 +118,21 @@ public class RestaurantManager extends Restaurant{
                 oldMenu.clear();
     }
 
-    public List<String> getMenuItem(){
-            List<String> item = new ArrayList<>();
+    public String[] getMenuItem(){
+            String[] item = new String[foodRead.size()+1];
+            int i =0;
             for (FoodManage menuItems : foodRead){
-                item.add(menuItems.getFoodName());
+                item[i] = menuItems.getFoodName();
+                i++;
             }
             return item;
     }
-    public List<Double> getMenuPrice(){
-        List<Double> itemPrice = new ArrayList<>();
+    public Double[] getMenuPrice(){
+        Double[] itemPrice = new Double[foodRead.size()+1];
+        int i = 0;
         for (FoodManage menuPrice : foodRead){
-            itemPrice.add(menuPrice.getPrice());
+            itemPrice[i] = menuPrice.getPrice();
+            i++;
         }
         return itemPrice;
     }
