@@ -8,69 +8,65 @@ import java.util.Scanner;
 * Using fileLoader and scanner to taking a menu and price from log file.
 * Using fileOutputStream for record receipt from Restaurant class.
 *
+* @author Manusporn Fukkham
 */
-public class RestaurantManager extends Restaurant{
+public class RestaurantManager {
 
-    private final String fileRecord = "src/data/RecordOrder.log";
+    private List<String> oldMenu =  new ArrayList<>();
+    private List<String> recordReceipt = new ArrayList<>();
+    private List<FoodManage> foodRead = new ArrayList<>();
+    private final String fileOutputStreamName = "src/data/MenuFile.log";
+    private final String fileOutputStreamRecord = "src/data/RecordOrder.log";
     private final String fileRecordIo = "data/RecordOrder.log";
+    private final String fileNameIo = "data/MenuFile.log";
     private int orderCount = 1;
-    private List<String> recordOld = new ArrayList<>();
 
     public int getOrderCount() {
         return orderCount;
     }
 
-    public void setRecordOrder(){
+    public void recordOrder(String[] food, int[] quantity ,double[] totalPrice,double allPriceTotal ,double amountPay ){
+        OutputStream Ops = null;
         Scanner reader = new Scanner(getFile(fileRecordIo));
         while(reader.hasNextLine()) {
-                recordOld.add(reader.nextLine());
-            }
-        recordOld.add("");
-    }
-    public void setRecordCount() {
-        Scanner reader = new Scanner(getFile(fileRecordIo));
+            recordReceipt.add(reader.nextLine());
+        }
+        recordReceipt.add("");
+        reader.close();
+        reader = new Scanner(getFile(fileRecordIo));
         while (reader.hasNextLine()) {
             String[] recover = reader.nextLine().split("  ");
             if(recover[0].startsWith("Order")){
                 this.orderCount++;
             }
         }
-    }
-
-    public void recordOrder(){
-        OutputStream Ops = null;
-        setRecordOrder();
-        setRecordCount();
+        reader.close();
         try{
-            Ops = new FileOutputStream(fileRecord);
+            Ops = new FileOutputStream(fileOutputStreamRecord);
             PrintStream PrintStream = new PrintStream(Ops);
-            for(String PutOldOrder : recordOld){
+            for(String PutOldOrder : recordReceipt){
                 PrintStream.println(PutOldOrder);
             }
             PrintStream.printf("Order number : %s%n",orderCount);
-            PrintStream.printf("%s : %s , %s : %s%n","Date",getDateFormat().format(getMyDate().getTime()),"Time",getTimeFormat().format(getMyDate().getTime()));
+            PrintStream.printf("%s : %s , %s : %s%n","Date", Restaurant.getDateFormat().format(Restaurant.getMyDate().getTime()),"Time", Restaurant.getTimeFormat().format(Restaurant.getMyDate().getTime()));
             PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", "Menu", "Qty", "Price");
-            for (int i = 0; i < getFood().length; i++) {
-                if (getQuantity()[i] > 0) {
-                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", getFood()[i], getQuantity()[i], getTotalPrice()[i]);
+            for (int i = 0; i < food.length; i++) {
+                if (quantity[i] > 0) {
+                    PrintStream.printf("|  %-16s|%7d  |   %11.2f |%n", food[i], quantity[i], totalPrice[i]);
                 }
             }
             PrintStream.println("+--------------------------------------------+");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Total", getAllPriceTotal());
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", getAmountPay());
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Total", allPriceTotal);
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Pay :", amountPay);
             PrintStream.printf("|  %-26s|   %11s |%n", "", "");
-            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", getAmountPay() - getAllPriceTotal());
+            PrintStream.printf("|  %-26s|   %11.2f |%n", "Change :", amountPay - allPriceTotal);
             PrintStream.println("+--------------------------------------------+");
 
         } catch (FileNotFoundException e){
-            System.out.println("Couldn't open output file " + fileRecord);
+            System.out.println("Couldn't open output file " + fileOutputStreamRecord);
             System.exit(3);
         }
     }
-
-    private List<FoodManage> foodRead = new ArrayList<>();
-    private final String fileNameIo = "data/MenuFile.log";
-    private final String fileName = "src/data/MenuFile.log";
 
     public void clearFoodRead(){
         foodRead.clear();
@@ -91,7 +87,8 @@ public class RestaurantManager extends Restaurant{
         reader.close();
     }
 
-    private List<String> oldMenu =  new ArrayList<>();
+
+
     public void setAddmenu(){
         Scanner reader = new Scanner(getFile(fileNameIo));
         while(reader.hasNextLine()) {
@@ -105,20 +102,20 @@ public class RestaurantManager extends Restaurant{
 
             OutputStream Ops = null;
             try {
-                Ops = new FileOutputStream(fileName);
+                Ops = new FileOutputStream(fileOutputStreamName);
                 PrintStream PrintStream = new PrintStream(Ops);
                 for (String PutOldOrder : oldMenu) {
                     PrintStream.println(PutOldOrder);
                 }
                 PrintStream.printf("%s : %.2f",foodAdd,priceAdd);
             }catch (FileNotFoundException e){
-                    System.out.println("Couldn't open output file " + fileName);
+                    System.out.println("Couldn't open output file " + fileOutputStreamName);
                     System.exit(3);
                 }
                 oldMenu.clear();
     }
 
-    public String[] getMenuItem(){
+    public String[] getMenuItems(){
             String[] item = new String[foodRead.size()+1];
             int i =0;
             for (FoodManage menuItems : foodRead){
@@ -127,8 +124,8 @@ public class RestaurantManager extends Restaurant{
             }
             return item;
     }
-    public Double[] getMenuPrice(){
-        Double[] itemPrice = new Double[foodRead.size()+1];
+    public double[] getPrices(){
+        double[] itemPrice = new double[foodRead.size()+1];
         int i = 0;
         for (FoodManage menuPrice : foodRead){
             itemPrice[i] = menuPrice.getPrice();

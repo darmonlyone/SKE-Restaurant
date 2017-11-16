@@ -1,5 +1,3 @@
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -16,28 +14,24 @@ import java.util.Date;
 
 public class Restaurant {
 
-
 	private static Scanner sc = new Scanner(System.in);
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
 	private static DateFormat timeFormat = new SimpleDateFormat("HH:mm:ss");
 	private static Date myDate = new Date(System.currentTimeMillis());
     private static String[] food;
-	private static Double[] foodPrice;
-	private static Integer[] quantity;
-	private static Double[] totalPrice;
+	private static double[] foodPrice;
+	private static int[] quantity;
+	private static double[] totalPrice;
 	private static double allPriceTotal,amountPay;
-
-
-	static String[] name = { "Wellcome to SKE restaurant", "Total", "Exit", "Bath", "Menu", "Cost", "Qty", "Price" };
 
 	//set menu and food price
 	private static void setResFood(){
 	    RestaurantManager resManage = new RestaurantManager();
 	    resManage.setMenu();
-        food = resManage.getMenuItem();
-        foodPrice = resManage.getMenuPrice();
-		quantity = new Integer[food.length];
-		totalPrice = new Double[food.length];
+        food = resManage.getMenuItems();
+        foodPrice = resManage.getPrices();
+		quantity = new int[food.length];
+		totalPrice = new double[food.length];
 		for (int i = 0; i < food.length ; i++) {
 			quantity[i] = 0;
 			totalPrice[i] = 0.00;
@@ -47,12 +41,12 @@ public class Restaurant {
 
 	//print a menu
 	private static void printMenu() {
-		System.out.printf("********** %s **********%n", name[0]);
-		System.out.printf("%5s%s%19s%s %n","", name[4],"", name[5]);
+		System.out.printf("********** %s **********%n", "Wellcome to SKE restaurant");
+		System.out.printf("%5s%s%19s%s %n","",  "Menu","", "Cost");
 		System.out.printf("%4s-------%16s------ %n","","");
 		for (int i = 0; i < food.length ; i++) {
 			if (food[i] == null)break;
-			System.out.printf("%d.) %-20s%6.2f\t%s.%n",i+1, food[i], foodPrice[i], name[3]);
+			System.out.printf("%d.) %-20s%6.2f\t%s.%n",i+1, food[i], foodPrice[i], "Bath");
 		}
 		System.out.printf("%n(%s) %-5s%n","P", "Print order");
 		System.out.printf("(%s) %-5s%n","C", "Cancel order");
@@ -88,25 +82,17 @@ public class Restaurant {
 		System.out.printf("|  %-16s|%7d  |   %11.2f |%n", ordername, Amount, finalPrice);
 	}
 
-	private static void totalPriceChange() {
-		for (int i = 0; i < foodPrice.length; i++) {
-			if (foodPrice[i] == null)break;
-			totalPrice[i] = quantity[i]*foodPrice[i];
-		}
-	}
-
 	private static void priceTotal(String ipOrder) {
-		totalPriceChange();
 		allPriceTotal = totals();
 		if (ipOrder.equalsIgnoreCase("P")) {
-			System.out.printf("+------ %s ------+-- %s --+---- %s ----+%n", name[4], name[6], name[7]);
+			System.out.printf("+------ %s ------+-- %s --+---- %s ----+%n", "Menu", "Qty","Price");
 			for (int i = 0; i < food.length; i++) {
 				if (quantity[i] > 0) {
 					printCheck(food[i], quantity[i], totalPrice[i]);
 				}
 			}
 			System.out.println("+--------------------------------------------+");
-			System.out.printf("|  %-26s|   %11.2f |%n", name[1], allPriceTotal);
+			System.out.printf("|  %-26s|   %11.2f |%n", "Total", allPriceTotal);
 			System.out.println("+--------------------------------------------+");
 
 		}
@@ -122,7 +108,7 @@ public class Restaurant {
 							quantity[j] = quantity[j]+ipAmount;
 						}
 					}
-
+					totalPrice[ipOrder-1] = quantity[ipOrder-1]*foodPrice[ipOrder-1];
 					System.out.printf("You order %d %s.%n", ipAmount, food[ipOrder-1].toLowerCase());
 
 					for (int i = 0; i < food.length; i++) {
@@ -190,6 +176,7 @@ public class Restaurant {
 					}if(!isit)cantOrder();
 				}
 				else if (ipOrder.equalsIgnoreCase("C")){
+                allPriceTotal = totals();
 					if ((allPriceTotal != 0)) {
 						getCancel();
 					} else cantOrder();
@@ -254,7 +241,7 @@ public class Restaurant {
 	}
 	private static void printReceipt(double total){
         RestaurantManager resRecord = new RestaurantManager();
-        resRecord.recordOrder();
+        resRecord.recordOrder(food,quantity,totalPrice,allPriceTotal,amountPay);
         System.out.println("\n****SKE restaurant Receipt****");
 		System.out.printf("Receipt No. %d%n" ,resRecord.getOrderCount());
 		System.out.printf("%s : %s , %s : %s%n","Date",dateFormat.format(myDate.getTime()),"Time",timeFormat.format(myDate.getTime()));
@@ -303,28 +290,5 @@ public class Restaurant {
 		return timeFormat;
 	}
 
-	public static double getAllPriceTotal() {
-		return allPriceTotal;
-	}
-
-	public static double getAmountPay() {
-		return amountPay;
-	}
-
-	public static Double[] getFoodPrice() {
-		return foodPrice;
-	}
-
-	public static Double[] getTotalPrice() {
-		return totalPrice;
-	}
-
-	public static Integer[] getQuantity() {
-		return quantity;
-	}
-
-	public static String[] getFood() {
-		return food;
-	}
 
 }
