@@ -25,15 +25,8 @@ public class RestaurantManager {
         return orderCount;
     }
 
-    public void recordOrder(String[] food, int[] quantity ,double[] totalPrice,double allPriceTotal ,double amountPay ){
-        OutputStream Ops = null;
+    public void setCountOrder() {
         Scanner reader = new Scanner(getFile(fileRecordIo));
-        while(reader.hasNextLine()) {
-            recordReceipt.add(reader.nextLine());
-        }
-        recordReceipt.add("");
-        reader.close();
-        reader = new Scanner(getFile(fileRecordIo));
         while (reader.hasNextLine()) {
             String[] recover = reader.nextLine().split("  ");
             if(recover[0].startsWith("Order")){
@@ -41,6 +34,19 @@ public class RestaurantManager {
             }
         }
         reader.close();
+    }
+
+    public void recordOrder(String[] food, int[] quantity , double[] totalPrice, double allPriceTotal , double amountPay ){
+        setCountOrder();
+
+        OutputStream Ops = null;
+        Scanner reader = new Scanner(getFile(fileRecordIo));
+        while(reader.hasNextLine()) {
+            recordReceipt.add(reader.nextLine());
+        }
+        recordReceipt.add("");
+        reader.close();
+
         try{
             Ops = new FileOutputStream(fileOutputStreamRecord);
             PrintStream PrintStream = new PrintStream(Ops);
