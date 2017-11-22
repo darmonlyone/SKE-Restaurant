@@ -53,8 +53,9 @@ public class RestaurantManager {
             for(String PutOldOrder : recordReceipt){
                 PrintStream.println(PutOldOrder);
             }
+            Restaurant restaurant = new Restaurant();
             PrintStream.printf("Order number : %s%n",orderCount);
-            PrintStream.printf("%s : %s , %s : %s%n","Date", Restaurant.getDateFormat().format(Restaurant.getMyDate().getTime()),"Time", Restaurant.getTimeFormat().format(Restaurant.getMyDate().getTime()));
+            PrintStream.printf("%s : %s , %s : %s%n","Date", restaurant.getDateFormat().format(restaurant.getMyDate().getTime()),"Time", restaurant.getTimeFormat().format(restaurant.getMyDate().getTime()));
             PrintStream.printf("+------ %s ------+-- %s --+---- %s ----+%n", "Menu", "Qty", "Price");
             for (int i = 0; i < food.length; i++) {
                 if (quantity[i] > 0) {
